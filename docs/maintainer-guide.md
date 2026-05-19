@@ -129,3 +129,35 @@ Both are disabled by default. They run only on manual `workflow_dispatch`
 and skip if their required secrets are absent. See
 [`docs/notifiers-setup.md`](notifiers-setup.md) for setup instructions and
 the trust model.
+
+## Dynamic badges
+
+PUMA Community displays four dynamic badges in the README, sourced from
+`badges/*.json` in this repository:
+
+- **submissions** — total count of merged submissions.
+- **models** — distinct models covered.
+- **scenarios** — distinct scenarios covered.
+- **latest** — date of the most recent submission.
+
+The badges are regenerated automatically by the `update-badges` workflow on
+every push to `main` that touches `submissions/*.json`. The workflow calls
+`scripts/generate_badges.py`, which can also be run locally to inspect the
+output.
+
+## Wiki
+
+The Wiki content is version-controlled under `wiki/` in this repository. To
+publish a change:
+
+1. Edit the relevant page under `wiki/` and open a PR (same workflow as any
+   other file).
+2. After the PR is merged to `main`, manually trigger the `wiki-sync`
+   workflow from the Actions tab (Actions → wiki-sync → Run workflow).
+3. The workflow clones the GitHub Wiki repo, rsyncs `wiki/` into it,
+   commits, and pushes.
+
+**Pre-condition**: the repository's Wikis feature must be enabled in
+Settings → Features → Wikis. The Wiki must have at least one page (any
+content) before the first sync; create a stub page via the GitHub web UI
+if needed.

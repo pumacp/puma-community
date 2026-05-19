@@ -3,6 +3,9 @@
 ![Submissions](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/pumacp/puma-community/main/badges/submission-count.json)
 ![Schema](https://img.shields.io/badge/schema-v1.0.0-green)
 ![License](https://img.shields.io/badge/license-MIT-blue)
+![Models](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/pumacp/puma-community/main/badges/models-count.json)
+![Scenarios](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/pumacp/puma-community/main/badges/scenarios-count.json)
+![Latest](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/pumacp/puma-community/main/badges/latest-submission.json)
 
 PUMA Community is a public submission hub for local-LLM benchmark results
 produced by the open-source PUMA tool. Anyone can run a PUMA evaluation
@@ -171,6 +174,8 @@ copied here byte-for-byte. The schema declares
 Schema upgrades are versioned: future revisions land at `schema/submission.v2.json`,
 `schema/submission.v3.json`, and so on. The v1 schema is preserved
 indefinitely so that older submissions remain readable.
+
+For end-user documentation, see the [PUMA Community Wiki](../../wiki).
 
 ---
 
