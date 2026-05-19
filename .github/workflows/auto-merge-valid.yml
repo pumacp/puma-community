@@ -1,0 +1,25 @@
+# v1 simplification: maintainers can add the `valid` label manually. v2 will
+# restrict label addition to the validate-submission workflow's GitHub App
+# identity. See `docs/maintainer-guide.md`.
+
+name: auto-merge-valid
+
+on:
+  pull_request_target:
+    types: [labeled]
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'valid' && github.event.pull_request.user.type != 'Bot'
+    steps:
+      - name: Enable auto-merge (squash)
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: squash

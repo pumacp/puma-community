@@ -1,0 +1,48 @@
+name: update-badges
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'submissions/*.json'
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Compute submission count and write badge
+        id: count
+        run: |
+          set -euo pipefail
+          mkdir -p badges
+          # Count *.json files under submissions/ (the directory's README.md is
+          # excluded by the glob).
+          N=$(find submissions -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          echo "count=${N}" >> "$GITHUB_OUTPUT"
+          cat > badges/submission-count.json <<EOF
+          {
+            "schemaVersion": 1,
+            "label": "submissions",
+            "message": "${N}",
+            "color": "blue"
+          }
+          EOF
+
+      - name: Commit and push if changed
+        run: |
+          set -euo pipefail
+          git config user.name "puma-community-bot"
+          git config user.email "noreply@pumacp.org"
+          if git diff --quiet --exit-code badges/submission-count.json; then
+            echo "No badge change; nothing to commit."
+            exit 0
+          fi
+          git add badges/submission-count.json
+          git commit -m "chore(badges): refresh submission count to ${{ steps.count.outputs.count }}"
+          git push

@@ -1,0 +1,150 @@
+name: validate-submission
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'submissions/*.json'
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out PR head
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install jsonschema
+        run: pip install jsonschema==4.23.0
+
+      - name: Identify changed submission files
+        id: changed
+        run: |
+          set -euo pipefail
+          BASE="origin/${{ github.base_ref }}"
+          git fetch origin "${{ github.base_ref }}" --depth=1 || true
+          FILES=$(git diff --name-only --diff-filter=AM "${BASE}...HEAD" -- 'submissions/*.json' || true)
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$FILES" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          if [ -z "$FILES" ]; then
+            echo "No submission files changed in this PR."
+          else
+            echo "Changed files:"
+            echo "$FILES"
+          fi
+
+      - name: Validate each submission
+        id: validate
+        if: steps.changed.outputs.files != ''
+        env:
+          CHANGED_FILES: ${{ steps.changed.outputs.files }}
+        run: |
+          python <<'PY'
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          from jsonschema import Draft202012Validator
+
+          schema_path = Path("schema/submission.v1.json")
+          schema = json.loads(schema_path.read_text(encoding="utf-8"))
+          validator = Draft202012Validator(schema)
+
+          changed = [
+              line.strip()
+              for line in os.environ.get("CHANGED_FILES", "").splitlines()
+              if line.strip()
+          ]
+          if not changed:
+              print("No changed submission files. Nothing to validate.")
+              sys.exit(0)
+
+          errors: list[str] = []
+          for rel in changed:
+              path = Path(rel)
+              if not path.exists():
+                  errors.append(f"{rel}: file not found in PR head")
+                  continue
+              try:
+                  payload = json.loads(path.read_text(encoding="utf-8"))
+              except json.JSONDecodeError as exc:
+                  errors.append(f"{rel}: invalid JSON ({exc.msg} at line {exc.lineno})")
+                  continue
+
+              schema_errors = sorted(validator.iter_errors(payload), key=lambda e: e.path)
+              for err in schema_errors:
+                  loc = "/".join(str(p) for p in err.absolute_path) or "<root>"
+                  errors.append(f"{rel}: schema error at {loc}: {err.message}")
+
+              submission_id = payload.get("submission_id")
+              expected_name = f"submissions/{submission_id}.json"
+              if expected_name != rel:
+                  errors.append(
+                      f"{rel}: filename does not match submission_id "
+                      f"(expected {expected_name})"
+                  )
+
+              if not schema_errors and expected_name == rel:
+                  print(f"OK: {rel}")
+
+          if errors:
+              print("Validation failed:")
+              for line in errors:
+                  print(f"  - {line}")
+              Path("validation-errors.txt").write_text("\n".join(errors), encoding="utf-8")
+              sys.exit(1)
+          PY
+
+      - name: Label PR valid
+        if: success() && steps.changed.outputs.files != ''
+        uses: actions-ecosystem/action-add-labels@v1.4.0
+        with:
+          labels: valid
+
+      - name: Label PR invalid
+        if: failure()
+        uses: actions-ecosystem/action-add-labels@v1.4.0
+        with:
+          labels: invalid
+
+      - name: Read validation errors
+        id: error_body
+        if: failure()
+        run: |
+          set -euo pipefail
+          if [ -f validation-errors.txt ]; then
+            BODY=$(cat validation-errors.txt)
+          else
+            BODY="Validation failed before producing a detailed report; see the workflow log."
+          fi
+          {
+            echo "body<<EOF"
+            echo "## Submission validation failed"
+            echo
+            echo '```'
+            echo "$BODY"
+            echo '```'
+            echo
+            echo "Fix the issues locally, push a new commit, and the workflow will re-run."
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post sticky comment on failure
+        if: failure()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: puma-community-validation
+          message: ${{ steps.error_body.outputs.body }}
