@@ -10,7 +10,7 @@ below; we follow it verbatim and do not maintain a separate copy here.
 **Canonical text:** <https://www.contributor-covenant.org/version/2/1/code_of_conduct/>
 
 **Reporting concerns:** report any incident privately to
-`puma-community-conduct@pumacp.org`. Reports are read only by the active
+`pumacapstoneproject@gmail.com`. Reports are read only by the active
 maintainer team.
 
 The maintainers commit to investigating every report in good faith,

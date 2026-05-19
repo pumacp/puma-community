@@ -30,7 +30,7 @@ jobs:
         run: |
           set -euo pipefail
           git config user.name "puma-community-bot"
-          git config user.email "noreply@pumacp.org"
+          git config user.email "pumacapstoneproject@gmail.com"
           git add badges/
           if git diff --cached --quiet; then
             echo "No badge change; nothing to commit."

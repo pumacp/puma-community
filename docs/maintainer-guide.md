@@ -95,7 +95,7 @@ scope for v1.
 `update-badges.yml` runs on every push to `main` that touches
 `submissions/*.json`. It rewrites `badges/submission-count.json` in the
 shields.io endpoint schema and commits the result back to `main` as
-`puma-community-bot <noreply@pumacp.org>`. If the badge content does not
+`puma-community-bot <pumacapstoneproject@gmail.com>`. If the badge content does not
 change, the workflow exits without committing.
 
 ## Releasing the repository

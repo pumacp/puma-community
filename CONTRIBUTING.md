@@ -127,4 +127,4 @@ workflow re-runs and the labels update automatically.
 All interactions on this repository — issues, pull requests, discussions —
 are governed by the [Contributor Covenant v2.1](CODE_OF_CONDUCT.md).
 Concerns can be reported privately to
-`puma-community-conduct@pumacp.org`.
+`pumacapstoneproject@gmail.com`.
