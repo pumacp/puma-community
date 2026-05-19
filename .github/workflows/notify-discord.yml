@@ -1,0 +1,72 @@
+# Recommended trigger (uncomment when DISCORD_WEBHOOK_URL is configured and tested):
+# push:
+#   branches: [main]
+#   paths: ['submissions/*.json']
+
+name: notify-discord
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out main with one parent
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check that DISCORD_WEBHOOK_URL is configured
+        id: check-secret
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          if [ -z "${DISCORD_WEBHOOK_URL:-}" ]; then
+            echo "Skipping: DISCORD_WEBHOOK_URL not configured"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up Python
+        if: steps.check-secret.outputs.skip == 'false'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Find newly added submissions
+        id: find-new
+        if: steps.check-secret.outputs.skip == 'false'
+        run: |
+          set -euo pipefail
+          files=$(git diff --name-only --diff-filter=A HEAD~1..HEAD -- 'submissions/*.json' 2>/dev/null || true)
+          if [ -z "$files" ]; then
+            echo "No new submission files in this commit. Nothing to notify."
+            echo "files=" >> "$GITHUB_OUTPUT"
+          else
+            echo "Found new submissions:"
+            echo "$files"
+            {
+              echo "files<<EOF"
+              echo "$files"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Post to Discord
+        if: steps.check-secret.outputs.skip == 'false' && steps.find-new.outputs.files != ''
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          FILES: ${{ steps.find-new.outputs.files }}
+        run: |
+          set -euo pipefail
+          while IFS= read -r file; do
+            [ -z "$file" ] && continue
+            echo "Notifying for $file"
+            python3 scripts/notify.py --channel discord --submission-file "$file"
+          done <<< "$FILES"

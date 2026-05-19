@@ -116,3 +116,16 @@ All three are disabled by default. They run only on manual `workflow_dispatch`
 and skip if their required secrets are absent. See
 [`docs/mirrors-setup.md`](mirrors-setup.md) for setup instructions and the
 trust model.
+
+## Notifiers
+
+PUMA Community supports two optional outward notifiers that announce new
+submissions to project channels:
+
+- **Discord webhook** (`notify-discord.yml`)
+- **Telegram bot** (`notify-telegram.yml`)
+
+Both are disabled by default. They run only on manual `workflow_dispatch`
+and skip if their required secrets are absent. See
+[`docs/notifiers-setup.md`](notifiers-setup.md) for setup instructions and
+the trust model.
