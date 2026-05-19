@@ -179,3 +179,12 @@ sample, update the sample and re-validate locally with `python3 -c "import
 json, jsonschema;
 jsonschema.validate(json.load(open('notebooks/sample_submission.json')),
 json.load(open('schema/submission.v1.json')))"` before committing.
+
+## Oracle Cloud auxiliary deployment (v2)
+
+PUMA Community v1 is fully serverless. A future v2 may add an optional
+always-on auxiliary service hosted on Oracle Cloud Always Free, providing
+a read-only HTTP API and a static leaderboard. The design proposal lives
+at [`docs/oracle-cloud-deployment.md`](oracle-cloud-deployment.md). It is
+NOT implemented as of v1.0.0; the design is captured so a future
+maintainer can pick it up.
