@@ -161,3 +161,21 @@ publish a change:
 Settings → Features → Wikis. The Wiki must have at least one page (any
 content) before the first sync; create a stub page via the GitHub web UI
 if needed.
+
+## Demo notebook
+
+The Colab demo notebook lives at `notebooks/puma_community_demo.ipynb` and
+is generated from `scripts/build_demo_notebook.py`. To update it:
+
+1. Edit `scripts/build_demo_notebook.py` (cells are constructed
+   programmatically).
+2. Run the generator: `python3 scripts/build_demo_notebook.py`.
+3. Commit both the script change and the regenerated `.ipynb`.
+
+The sample submission used by the notebook lives at
+`notebooks/sample_submission.json`. It must remain valid against
+`schema/submission.v1.json`. If the schema changes in a way that breaks the
+sample, update the sample and re-validate locally with `python3 -c "import
+json, jsonschema;
+jsonschema.validate(json.load(open('notebooks/sample_submission.json')),
+json.load(open('schema/submission.v1.json')))"` before committing.

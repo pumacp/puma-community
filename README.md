@@ -7,6 +7,12 @@
 ![Scenarios](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/pumacp/puma-community/main/badges/scenarios-count.json)
 ![Latest](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/pumacp/puma-community/main/badges/latest-submission.json)
 
+## Try it in Colab
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/pumacp/puma-community/blob/main/notebooks/puma_community_demo.ipynb)
+
+Run the demo notebook in your browser — no install, no token, no account required. See [`docs/colab-demo.md`](docs/colab-demo.md) for details.
+
 PUMA Community is a public submission hub for local-LLM benchmark results
 produced by the open-source PUMA tool. Anyone can run a PUMA evaluation
 locally and share their results with the community via a Pull Request to this

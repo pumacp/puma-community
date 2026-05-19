@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "submission_id": "00000000-0000-4000-8000-000000000001",
+  "submitted_at": "2026-05-18T10:00:00+00:00",
+  "submitter": {
+    "name_or_alias": "demo-sample",
+    "affiliation": null,
+    "contact": null,
+    "consent_public_release": true,
+    "consent_redistribution": true,
+    "consent_research_use": true,
+    "license": "CC-BY-4.0"
+  },
+  "puma_version": "2.7.0",
+  "run_metadata": {
+    "scenario": "triage_jira",
+    "model": "qwen2.5:3b",
+    "strategy": "zero_shot",
+    "n_instances": 200,
+    "seed": 42,
+    "temperature": 0.0,
+    "ollama_version": "0.3.10",
+    "started_at": "2026-05-18T09:00:00+00:00",
+    "completed_at": "2026-05-18T09:30:00+00:00",
+    "latency_ms_total": 180000,
+    "latency_ms_p50": 800,
+    "latency_ms_p95": 1500
+  },
+  "hardware_profile": {
+    "profile_id": "gpu-entry",
+    "cpu_model": "Intel Core i7-9750H",
+    "cpu_cores": 12,
+    "ram_gb": 16,
+    "gpu_model": "NVIDIA RTX 2060 Mobile",
+    "gpu_vram_gb": 6,
+    "os": "Linux 6.8.0"
+  },
+  "metrics": {
+    "f1_macro": 0.5867,
+    "accuracy": 0.7234,
+    "ece": 0.0421
+  },
+  "sustainability": {
+    "codecarbon_version": "2.4.1",
+    "co2_grams_total": 3.075,
+    "energy_kwh_total": 0.0142,
+    "tracking_mode": "machine",
+    "country_iso": "ESP"
+  },
+  "integrity": {
+    "predictions_summary_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "verification_status": "self-attested"
+  }
+}
