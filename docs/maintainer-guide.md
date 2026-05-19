@@ -103,3 +103,16 @@ change, the workflow exits without committing.
 The community repository does not cut versioned releases. The schema
 version (`schema/submission.v1.json`) is the only versioned artifact;
 schema upgrades follow the procedure above.
+
+## Mirrors
+
+PUMA Community supports three optional outward mirrors:
+
+- **Hugging Face Dataset** (`mirror-huggingface.yml`)
+- **Zenodo DOI snapshot** (`mirror-zenodo.yml`)
+- **Kaggle Dataset** (`mirror-kaggle.yml`)
+
+All three are disabled by default. They run only on manual `workflow_dispatch`
+and skip if their required secrets are absent. See
+[`docs/mirrors-setup.md`](mirrors-setup.md) for setup instructions and the
+trust model.

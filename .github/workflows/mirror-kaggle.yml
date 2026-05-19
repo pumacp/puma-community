@@ -1,0 +1,90 @@
+# Recommended schedule (uncomment when Kaggle credentials are configured and tested):
+# schedule:
+#   - cron: '0 5 * * 0'  # weekly Sundays at 05:00 UTC
+
+name: mirror-kaggle
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Check that Kaggle credentials are configured
+        id: check-secret
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          if [ -z "${KAGGLE_USERNAME:-}" ] || [ -z "${KAGGLE_KEY:-}" ]; then
+            echo "Skipping: KAGGLE_USERNAME and/or KAGGLE_KEY not configured"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up Python
+        if: steps.check-secret.outputs.skip == 'false'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install kaggle
+        if: steps.check-secret.outputs.skip == 'false'
+        run: pip install 'kaggle>=1.6,<2'
+
+      - name: Configure Kaggle credentials
+        if: steps.check-secret.outputs.skip == 'false'
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.kaggle
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          cfg = Path.home() / ".kaggle" / "kaggle.json"
+          cfg.write_text(
+              json.dumps(
+                  {
+                      "username": os.environ["KAGGLE_USERNAME"],
+                      "key": os.environ["KAGGLE_KEY"],
+                  }
+              ),
+              encoding="utf-8",
+          )
+          PY
+          chmod 600 ~/.kaggle/kaggle.json
+
+      - name: Prepare Kaggle dataset package
+        if: steps.check-secret.outputs.skip == 'false'
+        run: |
+          set -euo pipefail
+          mkdir -p kaggle-package
+          cp -r submissions schema README.md LICENSE kaggle-package/
+          cat > kaggle-package/dataset-metadata.json <<JSON
+          {
+            "title": "PUMA Community submissions",
+            "id": "pumacp/puma-community-submissions",
+            "licenses": [{"name": "MIT"}]
+          }
+          JSON
+
+      - name: Create or version Kaggle dataset
+        if: steps.check-secret.outputs.skip == 'false'
+        run: |
+          set -euo pipefail
+          if ! kaggle datasets create -p kaggle-package -u 2>/dev/null; then
+            kaggle datasets version -p kaggle-package -m "Mirror $(date -u +%Y-%m-%d)"
+          fi

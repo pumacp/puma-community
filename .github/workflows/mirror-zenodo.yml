@@ -1,0 +1,54 @@
+# Recommended schedule (uncomment when ZENODO_TOKEN is configured and tested):
+# schedule:
+#   - cron: '0 4 1 1,4,7,10 *'  # quarterly at 04:00 UTC on the 1st
+
+name: mirror-zenodo
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Check that ZENODO_TOKEN is configured
+        id: check-secret
+        env:
+          ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+        run: |
+          if [ -z "${ZENODO_TOKEN:-}" ]; then
+            echo "Skipping: ZENODO_TOKEN not configured"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up Python
+        if: steps.check-secret.outputs.skip == 'false'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build snapshot archive
+        if: steps.check-secret.outputs.skip == 'false'
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          snapshot_date=$(date -u +%Y-%m-%d)
+          archive="artifacts/puma-community-${snapshot_date}.zip"
+          zip -r "$archive" submissions/ schema/ README.md LICENSE
+          echo "ARCHIVE=${archive}" >> "$GITHUB_ENV"
+
+      - name: Publish to Zenodo
+        if: steps.check-secret.outputs.skip == 'false'
+        env:
+          ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+          ZENODO_BASE_URL: ${{ vars.ZENODO_BASE_URL }}
+        run: python3 scripts/mirror_zenodo.py "$ARCHIVE"
