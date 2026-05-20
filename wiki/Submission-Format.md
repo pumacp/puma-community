@@ -117,3 +117,12 @@ submission time.
   "integrity": { "predictions_summary_hash": "aaaa...64hex" }
 }
 ```
+
+## See also
+
+- [Anonymity and Privacy](Anonymity-And-Privacy) — what is and isn't
+  transmitted in the fields above, and how the PII scanner protects against
+  accidental disclosures.
+- [Validation Process](Validation-Process) — how the schema and integrity
+  checks above are exercised in CI before a submission is accepted.
+

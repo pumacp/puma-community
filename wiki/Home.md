@@ -1,41 +1,45 @@
 # PUMA Community Wiki
 
-Welcome to the PUMA Community Wiki. This is the end-user-facing reference for
-contributors who want to submit local-LLM benchmark results to the public
-submission hub, and for readers who want to interpret the JSON documents
-under `submissions/`. Maintainer-facing operational notes live in
-`docs/maintainer-guide.md` in the main repository.
+PUMA Community is a public hub where users of the PUMA benchmarking tool
+share their local LLM evaluation results. Every submission is
+cryptographically integrity-checked, schema-validated, and PII-scanned before
+publication. The submission flow lives entirely on GitHub — there is no
+central server, no account beyond your GitHub account, and no fee.
 
-PUMA itself is a local, reproducible benchmarking framework for evaluating
-open-weight language models on project-management tasks. PUMA Community is
-the public archive of evaluation runs that PUMA users have chosen to share.
+## Why this exists
 
-## Pages
+Local LLM benchmarks depend heavily on hardware: a 7-billion-parameter model
+behaves differently on a 4 GB GPU than on a 24 GB GPU than on CPU. No
+commercial benchmark captures that diversity. By pooling verified results
+across machines, PUMA Community builds a community-owned record of how local
+models actually perform across the configurations practitioners run.
 
+## Explore the Wiki
+
+- [Why PUMA Community?](Why-PUMA-Community) — the rationale and the value
+  proposition for sharing your results.
+- [Running a Benchmark](Running-A-Benchmark) — a short overview of running
+  PUMA locally; the full reference lives in the PUMA Wiki.
+- [Submitting Results](Submitting-Results) — step-by-step submission flow,
+  including PAT creation, dry-run, and publish.
 - [Submission Format](Submission-Format) — what's inside a submission JSON,
-  what every field means, and which values are accepted.
-- [FAQ](FAQ) — answers to the most common questions about validation,
-  immutability, supported hardware, model exclusions, integrity hashes, and
-  the optional outward mirrors.
+  what every field means, and accepted values.
+- [Anonymity and Privacy](Anonymity-And-Privacy) — what is and isn't
+  published, how the PII scanner works, how to withdraw a submission.
+- [Validation Process](Validation-Process) — what happens after you open a
+  submission PR.
+- [Mirror Locations](Mirror-Locations) — status of Hugging Face, Zenodo, and
+  Kaggle mirrors.
+- [FAQ](FAQ) — common questions about validation, hardware, models, and
+  integrity hashes.
+- [For Maintainers](For-Maintainers) — operator-facing guide for those with
+  write access to this repository.
 
 ## Quick links
 
-- **Submit your results:** see
-  [`CONTRIBUTING.md`](https://github.com/pumacp/puma-community/blob/main/CONTRIBUTING.md)
-  for the recommended `puma share-results` workflow and the manual path.
-- **Browse submissions:** the canonical archive lives under
-  [`submissions/`](https://github.com/pumacp/puma-community/tree/main/submissions)
-  on the main branch.
-- **Schema:** the canonical JSON Schema is
-  [`schema/submission.v1.json`](https://github.com/pumacp/puma-community/blob/main/schema/submission.v1.json).
-- **Project README:** see the
-  [main README](https://github.com/pumacp/puma-community/blob/main/README.md)
-  for the high-level overview and badges.
-
-## Reporting problems
-
-Open an issue in the
-[main repository](https://github.com/pumacp/puma-community/issues). Use the
-`governance` label for disputes over rejected submissions, model exclusions,
-or schema policy. Use the default label for everything else (typo reports,
-documentation gaps, workflow bugs).
+- [PUMA Community repo](https://github.com/pumacp/puma-community) — the
+  canonical submission archive and the schema.
+- [PUMA tool repo](https://github.com/pumacp/puma) — the benchmarking
+  framework that produces the submissions.
+- [Latest badges](https://github.com/pumacp/puma-community#readme) —
+  submission count, model count, scenario count, latest submission.

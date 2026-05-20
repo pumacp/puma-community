@@ -95,3 +95,27 @@ All three are disabled by default and run only on manual
 `workflow_dispatch`. See
 [`docs/mirrors-setup.md`](https://github.com/pumacp/puma-community/blob/main/docs/mirrors-setup.md)
 for setup instructions and the trust model.
+
+## Why use a GitHub PAT and not OAuth?
+
+Simplicity. PUMA Community has no central server, so there is nothing to
+host an OAuth callback against. A fine-grained PAT scoped to this single
+repository gives you full control over what the local client can do, is
+revocable at any time from GitHub's UI, and requires no additional
+infrastructure on the project's side.
+
+## What if my hardware profile isn't in the list?
+
+Open an issue at
+[pumacp/puma-community/issues](https://github.com/pumacp/puma-community/issues)
+describing the configuration (CPU class, RAM, GPU make and VRAM). New
+profiles are added periodically as the catalog of submitted hardware grows.
+Until a new profile lands, the closest existing profile is the safe
+fallback — the metrics are still meaningful, just bucketed less precisely.
+
+## Can I submit multiple results in one PR?
+
+No. Each PR contains exactly one submission for traceability: a single PR
+maps to a single `submissions/<id>.json` file, a single integrity hash, and
+a single validation run. Submitting N results means opening N PRs, which is
+intentional — each one is independently verifiable and auto-mergeable.
