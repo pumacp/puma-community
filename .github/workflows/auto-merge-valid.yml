@@ -17,6 +17,29 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.label.name == 'valid' && github.event.pull_request.user.type != 'Bot'
     steps:
+      - name: Verify PR only modifies submissions/
+        id: path-filter
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          CHANGED=$(gh pr view "$PR_NUMBER" --repo ${{ github.repository }} \
+            --json files --jq '.files[].path')
+          if [ -z "$CHANGED" ]; then
+            echo "::error::No changed files detected; refusing to merge."
+            exit 1
+          fi
+          OUTSIDE=$(echo "$CHANGED" | grep -v '^submissions/' || true)
+          if [ -n "$OUTSIDE" ]; then
+            echo "::error::PR modifies files outside submissions/:"
+            echo "$OUTSIDE"
+            echo "Auto-merge refused for safety. A human maintainer must review."
+            exit 1
+          fi
+          COUNT=$(echo "$CHANGED" | wc -l)
+          echo "All ${COUNT} changed files are within submissions/. Safe to auto-merge."
+
       - name: Enable auto-merge (squash)
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
