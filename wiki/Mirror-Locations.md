@@ -8,7 +8,7 @@ secrets are configured.
 
 ## Planned mirrors
 
-- **Hugging Face Datasets** at `pumacp/puma-community-submissions`. Each
+- **Hugging Face Datasets** at `pumaproject/puma-community-submissions`. Each
   accepted submission becomes a row in a Parquet-backed dataset. Use case:
   programmatic discovery, filtering, and analytical queries via the
   `datasets` library.
@@ -32,7 +32,7 @@ Once Hugging Face is populated:
 
 ```python
 from datasets import load_dataset
-ds = load_dataset("pumacp/puma-community-submissions", split="train")
+ds = load_dataset("pumaproject/puma-community-submissions", split="train")
 ```
 
 Once Kaggle is populated:

@@ -87,7 +87,7 @@ the change.
 
 Three optional outward mirrors push merged submissions to:
 
-- **Hugging Face Datasets** — `pumacp/puma-community-submissions`.
+- **Hugging Face Datasets** — `pumaproject/puma-community-submissions`.
 - **Zenodo** — versioned DOI snapshots.
 - **Kaggle** — `pumacp/puma-community-submissions`.
 
