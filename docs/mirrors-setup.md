@@ -27,7 +27,7 @@ Workflow file: `.github/workflows/mirror-huggingface.yml`.
 3. Trigger manually: **Actions → mirror-huggingface → Run workflow**.
 
 The workflow uses the `huggingface_hub` Python API to create-or-update the
-dataset `pumacp/puma-community-submissions` and upload the contents of
+dataset `pumaproject/puma-community-submissions` and upload the contents of
 `submissions/` into it. The commit message records the source SHA for
 traceability.
 
