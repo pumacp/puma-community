@@ -1,16 +1,12 @@
-# Recommended trigger (uncomment when DISCORD_WEBHOOK_URL is configured and tested):
-# push:
-#   branches: [main]
-#   paths: ['submissions/*.json']
-
+# Triggers: manual dispatch, or new submissions/*.json merged to main.
 name: notify-discord
-
 on:
   workflow_dispatch: {}
-
+  push:
+    branches: [main]
+    paths: ['submissions/*.json']
 permissions:
   contents: read
-
 jobs:
   notify:
     runs-on: ubuntu-latest
@@ -20,7 +16,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
-
       - name: Check that DISCORD_WEBHOOK_URL is configured
         id: check-secret
         env:
@@ -32,13 +27,11 @@ jobs:
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
-
       - name: Set up Python
         if: steps.check-secret.outputs.skip == 'false'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
       - name: Find newly added submissions
         id: find-new
         if: steps.check-secret.outputs.skip == 'false'
@@ -57,7 +50,6 @@ jobs:
               echo "EOF"
             } >> "$GITHUB_OUTPUT"
           fi
-
       - name: Post to Discord
         if: steps.check-secret.outputs.skip == 'false' && steps.find-new.outputs.files != ''
         env:
