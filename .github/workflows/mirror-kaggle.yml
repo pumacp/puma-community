@@ -75,7 +75,7 @@ jobs:
           cp -r submissions schema README.md LICENSE kaggle-package/
           cat > kaggle-package/dataset-metadata.json <<JSON
           {
-            "title": "PUMA Community Submissions — Local LLM PMO Benchmark",
+            "title": "PUMA Community Submissions (LLM PMO Benchmark)",
             "id": "pumacp/puma-community-submissions",
             "licenses": [{"name": "CC-BY-4.0"}]
           }
