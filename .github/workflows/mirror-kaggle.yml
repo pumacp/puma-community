@@ -77,7 +77,7 @@ jobs:
           {
             "title": "PUMA Community submissions",
             "id": "pumacp/puma-community-submissions",
-            "licenses": [{"name": "MIT"}]
+            "licenses": [{"name": "CC-BY-4.0"}]
           }
           JSON
 
@@ -85,6 +85,13 @@ jobs:
         if: steps.check-secret.outputs.skip == 'false'
         run: |
           set -euo pipefail
-          if ! kaggle datasets create -p kaggle-package -u -r zip 2>/dev/null; then
+          # Decide create-vs-version by checking existence explicitly, because
+          # `kaggle datasets create` can exit 0 even when it errors (e.g. on a
+          # title collision), which would silently skip a `||` version fallback.
+          if kaggle datasets list -m 2>/dev/null | grep -q "puma-community-submissions"; then
+            echo "Dataset exists; uploading a new version."
             kaggle datasets version -p kaggle-package -m "Mirror $(date -u +%Y-%m-%d)" -r zip
+          else
+            echo "Dataset absent; creating it (public)."
+            kaggle datasets create -p kaggle-package -u -r zip
           fi
