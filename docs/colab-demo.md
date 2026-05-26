@@ -42,7 +42,7 @@ jupyter notebook notebooks/puma_community_demo.ipynb
 ## Regenerate the notebook
 
 The notebook is built programmatically from
-[`scripts/build_demo_notebook.py`](../scripts/build_demo_notebook.py). To
+[`scripts/build_demo_notebook.py`](https://github.com/pumacp/puma-community/blob/main/scripts/build_demo_notebook.py). To
 update its contents, edit the script and run:
 
 ```bash

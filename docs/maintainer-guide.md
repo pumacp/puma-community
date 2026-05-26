@@ -185,6 +185,6 @@ json.load(open('schema/submission.v1.json')))"` before committing.
 PUMA Community v1 is fully serverless. A future v2 may add an optional
 always-on auxiliary service hosted on Oracle Cloud Always Free, providing
 a read-only HTTP API and a static leaderboard. The design proposal lives
-at [`docs/oracle-cloud-deployment.md`](oracle-cloud-deployment.md). It is
+at [`docs/oracle-cloud-deployment.md`](https://github.com/pumacp/puma-community/blob/main/docs/oracle-cloud-deployment.md). It is
 NOT implemented as of v1.0.0; the design is captured so a future
 maintainer can pick it up.
