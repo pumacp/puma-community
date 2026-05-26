@@ -1,0 +1,63 @@
+site_name: "PUMA Community"
+site_description: "Public archive of community-contributed benchmark results for the PUMA project."
+site_url: "https://pumacp.github.io/puma-community/"
+repo_url: "https://github.com/pumacp/puma-community"
+repo_name: "pumacp/puma-community"
+edit_uri: "edit/main/docs/"
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: "Switch to dark mode"
+    - scheme: slate
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: "Switch to light mode"
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - tables
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - Submitting results: contributing.md
+  - Submission format: submission-format.md
+  - Mirrors setup: mirrors-setup.md
+  - Notifiers setup: notifiers-setup.md
+  - Maintainer guide: maintainer-guide.md
+  - Colab demo: colab-demo.md
+
+# Curated-build only: docs/ pages not in the nav above are excluded so
+# `mkdocs build --strict` link-checks exactly the published set.
+exclude_docs: |
+  hf-dataset-card.md
+  oracle-cloud-deployment.md
