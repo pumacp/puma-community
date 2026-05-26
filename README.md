@@ -13,6 +13,12 @@
   <a href="https://github.com/pumacp/puma-community/actions/workflows/validate-submission.yml">
     <img src="https://github.com/pumacp/puma-community/actions/workflows/validate-submission.yml/badge.svg" alt="Validate submissions">
   </a>
+  <a href="https://github.com/pumacp/puma-community/actions/workflows/docs.yml">
+    <img src="https://github.com/pumacp/puma-community/actions/workflows/docs.yml/badge.svg?branch=main" alt="Docs CI">
+  </a>
+  <a href="https://pumacp.github.io/puma-community/">
+    <img src="https://img.shields.io/badge/docs-pumacp.github.io%2Fpuma--community-blue" alt="Documentation">
+  </a>
   <img src="https://img.shields.io/badge/license-MIT-blue" alt="License: MIT">
   <img src="https://img.shields.io/badge/schema-v1.0.0-green" alt="Schema v1.0.0">
   <br>
