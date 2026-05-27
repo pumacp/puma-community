@@ -126,7 +126,7 @@ summarizing the failure.
 
 | Channel | Target | Status |
 |---|---|---|
-| Hugging Face Datasets | `pumaproject/puma-community-submissions` | mirror active when `HF_TOKEN` is configured |
+| Hugging Face Datasets | `pumaproject/puma-community-submissions` | mirror active when its secret is configured |
 | Zenodo community | `pumacp` | sandbox validated; production pending the first DOI |
 | Kaggle dataset | `pumacp/puma-community-submissions` | prepared, dormant — activated by trigger |
 
@@ -137,7 +137,7 @@ runs on its own schedule, and is gated by the secret it requires.
 
 Verification is independent of the original submitter:
 
-- The Hugging Face Space [`puma-verifier`](https://huggingface.co/spaces/pumaproject/puma-verifier) (private endpoint) replicates the **byte-identical** hashing algorithm from the PUMA client.
+- An independent verifier replicates the **byte-identical** hashing algorithm from the PUMA client.
 - The `verify-submission` workflow detects new submissions via `git diff` and invokes the verifier.
 - Each submission gets a sidecar `<id>.verified.json` next to it.
 - Verification status renders as a badge in the leaderboard.
@@ -216,7 +216,6 @@ The hub grows along trigger-based horizons rather than fixed dates:
 - **Organization** — <https://huggingface.co/pumaproject>
 - **Dataset of submissions** — <https://huggingface.co/datasets/pumaproject/puma-community-submissions>
 - **Leaderboard (Gradio Space)** — <https://huggingface.co/spaces/pumaproject/puma-leaderboard>
-- **Verifier (private endpoint)** — <https://huggingface.co/spaces/pumaproject/puma-verifier>
 - **Personal namespace** — <https://huggingface.co/pumacp>
 
 ### Persistent archives & catalogs
