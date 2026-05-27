@@ -60,12 +60,14 @@ plugins:
 
 nav:
   - Home: index.md
-  - Submitting results: contributing.md
+  - Submit: contributing.md
   - Submission format: submission-format.md
-  - Mirrors setup: mirrors-setup.md
-  - Notifiers setup: notifiers-setup.md
-  - Maintainer guide: maintainer-guide.md
-  - Colab demo: colab-demo.md
+  - Operations:
+      - Mirrors setup: mirrors-setup.md
+      - Notifiers setup: notifiers-setup.md
+      - Maintainer guide: maintainer-guide.md
+  - Tutorials:
+      - Colab demo: colab-demo.md
 
 # Curated-build only: docs/ pages not in the nav above are excluded so
 # `mkdocs build --strict` link-checks exactly the published set.
