@@ -62,10 +62,6 @@ nav:
   - Home: index.md
   - Submit: contributing.md
   - Submission format: submission-format.md
-  - Operations:
-      - Mirrors setup: mirrors-setup.md
-      - Notifiers setup: notifiers-setup.md
-      - Maintainer guide: maintainer-guide.md
   - Tutorials:
       - Colab demo: colab-demo.md
 
@@ -74,3 +70,6 @@ nav:
 exclude_docs: |
   hf-dataset-card.md
   oracle-cloud-deployment.md
+  mirrors-setup.md
+  notifiers-setup.md
+  maintainer-guide.md
