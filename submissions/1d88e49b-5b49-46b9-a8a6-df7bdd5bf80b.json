@@ -1,0 +1,61 @@
+{
+  "hardware_profile": {
+    "cpu_cores": 12,
+    "cpu_model": "x86_64",
+    "gpu_model": "NVIDIA GeForce RTX 2060",
+    "gpu_vram_gb": 6,
+    "os": "Linux",
+    "profile_id": "gpu-entry",
+    "ram_gb": 31
+  },
+  "integrity": {
+    "payload_signature": null,
+    "predictions_summary_hash": "f60423ca6a6e9b033f0f89ac5a5a127d889a6e2627fc07c480c44bfdf53857ec",
+    "verification_status": "self-attested"
+  },
+  "metrics": {
+    "accuracy": 0.465,
+    "confusion_matrix": null,
+    "ece": null,
+    "f1_macro": 0.38976688365784873,
+    "f1_per_class": null,
+    "mae": null,
+    "mdae": null
+  },
+  "notes": null,
+  "puma_version": "3.1.0",
+  "raw_predictions_url": null,
+  "run_metadata": {
+    "completed_at": "2026-05-31T09:15:09.067567Z",
+    "latency_ms_p50": 199,
+    "latency_ms_p95": 208,
+    "latency_ms_total": 43362,
+    "model": "qwen2.5:3b",
+    "n_instances": 200,
+    "ollama_version": "unknown",
+    "scenario": "triage_jira",
+    "seed": 42,
+    "started_at": "2026-05-31T09:14:17.225150Z",
+    "strategy": "zero_shot",
+    "temperature": 0.0
+  },
+  "schema_version": "1.0.0",
+  "submission_id": "1d88e49b-5b49-46b9-a8a6-df7bdd5bf80b",
+  "submitted_at": "2026-05-31T09:16:01.064478Z",
+  "submitter": {
+    "affiliation": null,
+    "consent_public_release": true,
+    "consent_redistribution": true,
+    "consent_research_use": true,
+    "contact": null,
+    "license": "CC-BY-4.0",
+    "name_or_alias": "pumacp"
+  },
+  "sustainability": {
+    "co2_grams_total": 0.11634962393381346,
+    "codecarbon_version": "3.2.7",
+    "country_iso": "ESP",
+    "energy_kwh_total": 0.0006684839065430248,
+    "tracking_mode": "machine"
+  }
+}
