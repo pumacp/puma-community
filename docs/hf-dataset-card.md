@@ -56,7 +56,7 @@ Minimal example:
   "submission_id": "sub_2026_001",
   "submitter": {
     "github_handle": "pumacp",
-    "affiliation": "UOC"
+    "affiliation": "your-organization"
   },
   "run_metadata": {
     "scenario": "triage_jira",
