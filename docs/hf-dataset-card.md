@@ -113,7 +113,7 @@ This dataset is built on a **transparency, not gatekeeping** principle:
 
 ```bibtex
 @misc{puma2026,
-  title  = {PUMA: Project Understanding and Management with Agents},
+  title  = {PUMA: PUMA Understanding & Management w Agents},
   author = {{PUMA Project Contributors}},
   year   = {2026},
   url    = {https://github.com/pumacp/puma}
