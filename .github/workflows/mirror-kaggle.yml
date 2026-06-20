@@ -75,9 +75,9 @@ jobs:
           cp -r submissions schema README.md LICENSE kaggle-package/
           cat > kaggle-package/dataset-metadata.json <<JSON
           {
-            "title": "PUMA Community submissions",
+            "title": "PUMA Community Submissions (LLM PMO Benchmark)",
             "id": "pumacp/puma-community-submissions",
-            "licenses": [{"name": "MIT"}]
+            "licenses": [{"name": "CC-BY-4.0"}]
           }
           JSON
 
@@ -85,6 +85,31 @@ jobs:
         if: steps.check-secret.outputs.skip == 'false'
         run: |
           set -euo pipefail
-          if ! kaggle datasets create -p kaggle-package -u 2>/dev/null; then
-            kaggle datasets version -p kaggle-package -m "Mirror $(date -u +%Y-%m-%d)"
+          # Decide create-vs-version by checking existence explicitly, because
+          # `kaggle datasets create` can exit 0 even when it errors (e.g. on a
+          # title collision), which would silently skip a `||` version fallback.
+          if kaggle datasets list -m 2>/dev/null | grep -q "puma-community-submissions"; then
+            echo "Dataset exists; uploading a new version."
+            kaggle datasets version -p kaggle-package -m "Mirror $(date -u +%Y-%m-%d)" -r zip
+          else
+            echo "Dataset absent; creating it (public)."
+            kaggle datasets create -p kaggle-package -u -r zip
           fi
+
+      - name: Verify dataset is publicly accessible
+        if: steps.check-secret.outputs.skip == 'false'
+        run: |
+          set -euo pipefail
+          # The kaggle CLI can exit 0 even when create/version errors (observed
+          # during Sprint 11' S11'.6), so confirm the public URL really resolves.
+          url="https://www.kaggle.com/datasets/pumacp/puma-community-submissions"
+          for i in $(seq 1 12); do
+            code=$(curl -sL -o /dev/null -w "%{http_code}" "$url" || echo "000")
+            echo "Attempt $i/12: HTTP $code"
+            case "$code" in
+              2*) echo "Dataset is publicly accessible at $url"; exit 0 ;;
+            esac
+            sleep 10
+          done
+          echo "ERROR: $url did not return 2xx within ~2 minutes."
+          exit 1
