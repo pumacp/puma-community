@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Generate badge JSONs for PUMA Community.
 
-Reads all submission files under ``<submissions_dir>`` and emits four
+Reads all submission files under ``<submissions_dir>`` (skipping
+``*.verified.json`` sidecars) and emits four
 shields.io endpoint JSONs under ``<badges_dir>``::
 
     submission-count.json   { label: submissions, message: <n>, color: blue }
@@ -72,7 +73,13 @@ def generate(submissions_dir: Path, badges_dir: Path) -> int:
 
     files: list[Path] = []
     if submissions_dir.is_dir():
-        files = sorted(p for p in submissions_dir.glob("*.json") if p.is_file())
+        # ``<id>.verified.json`` sidecars written by verify-submission.yml are
+        # not submissions; counting them would inflate every badge.
+        files = sorted(
+            p
+            for p in submissions_dir.glob("*.json")
+            if p.is_file() and not p.name.endswith(".verified.json")
+        )
 
     models: set[str] = set()
     scenarios: set[str] = set()
