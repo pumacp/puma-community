@@ -43,7 +43,7 @@ flood of failed runs.
 Add the following secrets via **Settings → Secrets and variables → Actions**:
 
 - `HF_TOKEN` — Hugging Face access token with `write` scope on
-  `pumacp/puma-community-submissions`.
+  `pumaproject/puma-community-submissions`.
 - `ZENODO_TOKEN` — Zenodo personal access token with `deposit:write`.
 - `KAGGLE_USERNAME` and `KAGGLE_KEY` — Kaggle credentials with dataset
   write access.

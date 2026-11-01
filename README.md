@@ -29,7 +29,7 @@
   <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/pumacp/puma-community/main/badges/latest-submission.json" alt="Latest">
   <br>
   <!-- Group C: ecosystem mirrors (target URLs may evolve as namespaces are claimed) -->
-  <a href="https://huggingface.co/datasets/pumacp/puma-community-submissions">
+  <a href="https://huggingface.co/datasets/pumaproject/puma-community-submissions">
     <img src="https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-yellow" alt="Hugging Face dataset">
   </a>
   <a href="https://zenodo.org/communities/pumacp">
